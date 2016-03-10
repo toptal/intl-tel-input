@@ -23,7 +23,8 @@ pre {
 .token.variable {
   background: none; }
 
-input, button {
+input,
+button {
   height: 35px;
   margin: 0;
   padding: 6px 12px;
@@ -31,10 +32,12 @@ input, button {
   font-family: inherit;
   font-size: 100%;
   color: inherit; }
-  input[disabled], button[disabled] {
+  input[disabled],
+  button[disabled] {
     background-color: #eee; }
 
-input, select {
+input,
+select {
   border: 1px solid #CCC;
   width: 250px; }
 
@@ -60,3 +63,11 @@ button {
 
 #result {
   margin-bottom: 100px; }
+
+input {
+  height: auto;
+  width: 800px;
+  font-size: 72px; }
+
+.country-list {
+  font-size: 30px; }

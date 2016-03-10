@@ -31,7 +31,8 @@ pre {
 }
 
 // general form styling
-input, button {
+input,
+button {
   height: 35px;
   margin: 0;
   padding: 6px 12px;
@@ -48,19 +49,24 @@ input, button {
 }
 
 // select useful for examples
-input, select {
+input,
+select {
   border: 1px solid #CCC;
   width: 250px;
 }
-::-webkit-input-placeholder {
-   color: #BBB;
+
+ ::-webkit-input-placeholder {
+  color: #BBB;
 }
-::-moz-placeholder {  /* Firefox 19+ */
-   color: #BBB;
-   opacity:  1; 
+
+ ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #BBB;
+  opacity: 1;
 }
-:-ms-input-placeholder {  
-   color: #BBB;  
+
+ :-ms-input-placeholder {
+  color: #BBB;
 }
 
 // borrowed from bootstrap
@@ -68,6 +74,7 @@ button {
   color: #FFF;
   background-color: #428BCA;
   border: 1px solid #357EBD;
+
   &:hover {
     background-color: #3276B1;
     border-color: #285E8E;
@@ -78,4 +85,14 @@ button {
 // examples
 #result {
   margin-bottom: 100px;
+}
+
+input {
+  height: auto;
+  width: 800px;
+  font-size: 72px;
+}
+
+.country-list {
+  font-size: 30px;
 }

@@ -24,8 +24,8 @@ module.exports = function(grunt) {
         // just generate the @2x images here, then use evenizer to get even pixel values for width and height before generating the @1x images
         sizes: [{
           rename: false,
-          width: 40,
-          height: 30
+          width: 160,
+          height: 120
         }],
         // re-gen the images even if the dest files already exist. this is useful for when we change settings here
         newFilesOnly: false
