@@ -14,6 +14,10 @@ var pluginName = "intlTelInput",
     dropdownContainer: "",
     // don't display these countries
     excludeCountries: [],
+    // function to fetch utils.js
+    fetchUtils: null,
+    // if true, call fetchUtils immediately instead of waiting for window.load event
+    forceFetch: false,
     // format the input value during initialisation
     formatOnInit: true,
     // geoIp lookup function
@@ -29,9 +33,7 @@ var pluginName = "intlTelInput",
     // the countries at the top of the list. defaults to united states and united kingdom
     preferredCountries: ["us", "gb"],
     // display the country dial code next to the selected flag so it's not part of the typed number
-    separateDialCode: false,
-    // specify the path to the libphonenumber script to enable validation/formatting
-    utilsScript: ""
+    separateDialCode: false
   },
   keys = {
     UP: 38,
@@ -418,19 +420,33 @@ Plugin.prototype = {
   },
 
 
+  // our internal fetchUtils wrapper
+  _fetchUtils: function() {
+    if (!$.fn[pluginName].loadedUtilsScript) {
+      // don't do this twice! (dont just check if window.intlTelInputUtils exists as if init plugin multiple times in quick succession, it may not have finished loading yet)
+      $.fn[pluginName].loadedUtilsScript = true;
+      this.options.fetchUtils(function() {
+        // tell all instances that the utils request is complete
+        $(".intl-tel-input input").intlTelInput("handleUtils");
+      });
+    } else {
+      this.utilsScriptDeferred.resolve();
+    }
+  },
+
+
   // init many requests: utils script / geo ip lookup
   _initRequests: function() {
     var that = this;
 
-    // if the user has specified the path to the utils script, fetch it on window.load, else resolve
-    if (this.options.utilsScript) {
-      // if the plugin is being initialised after the window.load event has already been fired
-      if ($.fn[pluginName].windowLoaded) {
-        $.fn[pluginName].loadUtils(this.options.utilsScript, this.utilsScriptDeferred);
+    if (this.options.fetchUtils) {
+      // if the plugin is being initialised after the window.load event has already fired (or if they force it)
+      if ($.fn[pluginName].windowLoaded || this.options.forceFetch) {
+        this._fetchUtils();
       } else {
-        // wait until the load event so we don't block any other requests e.g. the flags image
+        // wait until the window.load event so we don't block any other requests e.g. the flags image
         $(window).load(function() {
-          $.fn[pluginName].loadUtils(that.options.utilsScript, that.utilsScriptDeferred);
+          that._fetchUtils();
         });
       }
     } else {
@@ -1150,7 +1166,7 @@ Plugin.prototype = {
   },
 
 
-  // validate the input val - assumes the global function isValidNumber (from utilsScript)
+  // validate the input val - assumes the global function isValidNumber (from utils.js)
   isValidNumber: function() {
     var val = $.trim(this._getFullNumber()),
       countryCode = (this.options.nationalMode) ? this.selectedCountryData.iso2 : "";
@@ -1259,28 +1275,6 @@ $.fn[pluginName] = function(options) {
 // get the country data object
 $.fn[pluginName].getCountryData = function() {
   return allCountries;
-};
-
-
-// load the utils script
-$.fn[pluginName].loadUtils = function(path, utilsScriptDeferred) {
-  if (!$.fn[pluginName].loadedUtilsScript) {
-    // don't do this twice! (dont just check if window.intlTelInputUtils exists as if init plugin multiple times in quick succession, it may not have finished loading yet)
-    $.fn[pluginName].loadedUtilsScript = true;
-
-    // dont use $.getScript as it prevents caching
-    $.ajax({
-      url: path,
-      complete: function() {
-        // tell all instances that the utils request is complete
-        $(".intl-tel-input input").intlTelInput("handleUtils");
-      },
-      dataType: "script",
-      cache: true
-    });
-  } else if (utilsScriptDeferred) {
-    utilsScriptDeferred.resolve();
-  }
 };
 
 
