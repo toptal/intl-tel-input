@@ -254,6 +254,13 @@ Insert a number, and update the selected flag accordingly. _Note that by default
 $("#phone").intlTelInput("setNumber", "+447733123456");
 ```
 
+**setPlaceholderNumberType**  
+Update the number type used for the placeholder.  
+```js
+$("#phone").intlTelInput("setPlaceholderNumberType", intlTelInputUtils.numberType.MOBILE);
+```
+
+
 
 ## Static Methods
 

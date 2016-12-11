@@ -1194,6 +1194,21 @@ Plugin.prototype = {
   },
 
 
+  // set the number type to use for the placeholder
+  setPlaceholderNumberType: function(numberType) {
+    if (window.intlTelInputUtils) {
+      // placeholderNumberType is stored as the key name e.g. "MOBILE", so first we must work backwards and get the key from the value
+      for (var prop in intlTelInputUtils.numberType) {
+        if (intlTelInputUtils.numberType.hasOwnProperty(prop) && intlTelInputUtils.numberType[prop] === numberType) {
+          this.options.placeholderNumberType = prop;
+          this._updatePlaceholder();
+          break;
+        }
+      }
+    }
+  },
+
+
   // this is called when the utils request completes
   handleUtils: function() {
     // if the request was successful
