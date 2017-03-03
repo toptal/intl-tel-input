@@ -54,7 +54,6 @@
     "build:js": "grunt js",
     "build:css": "grunt css",
     "build:img": "grunt img",
-    "watch": "grunt watch",
-    "prepublish": "grunt build"
+    "watch": "grunt watch"
   }
 }
