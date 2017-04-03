@@ -3,6 +3,7 @@
  * https://github.com/jackocnr/intl-tel-input.git
  * Licensed under the MIT license
  */
+
 // wrap in UMD - see https://github.com/umdjs/umd/blob/master/jqueryPluginCommonjs.js
 (function(factory) {
     if (typeof define === "function" && define.amd) {
@@ -494,6 +495,7 @@
             this._bindDropdownListeners();
             // update the arrow
             this.selectedFlagInner.children(".iti-arrow").addClass("up");
+            this.telInput.parent().addClass("is-dropdown-open");
         },
         // decide where to position dropdown (depends on position within viewport, and scroll)
         _setDropdownPosition: function() {
@@ -778,6 +780,7 @@
                 }
                 this.dropdown.detach();
             }
+            this.telInput.parent().removeClass("is-dropdown-open");
         },
         // check if an element is visible within it's container, else scroll until it is
         _scrollTo: function(element, middle) {

@@ -580,6 +580,8 @@ Plugin.prototype = {
 
     // update the arrow
     this.selectedFlagInner.children(".iti-arrow").addClass("up");
+
+    this.telInput.parent().addClass("is-dropdown-open");
   },
 
 
@@ -938,6 +940,8 @@ Plugin.prototype = {
       }
       this.dropdown.detach();
     }
+
+    this.telInput.parent().removeClass("is-dropdown-open");
   },
 
 
